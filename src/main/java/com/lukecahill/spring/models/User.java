@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Collection;
@@ -12,6 +13,7 @@ import java.util.Collection;
 @Table(name = "Users")
 public class User implements Serializable, UserDetails {
 
+    @Id
     private String username;
     private String name;
     private String email;
