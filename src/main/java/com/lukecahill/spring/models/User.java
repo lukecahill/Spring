@@ -1,7 +1,7 @@
 package com.lukecahill.spring.models;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Users")
-public class User implements Serializable, UserDetails {
+public class User implements Serializable {//, UserDetails {
 
     @Id
     private String username;
@@ -50,37 +50,37 @@ public class User implements Serializable, UserDetails {
         this.enabled = enabled;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles;
-    }
+    //@Override
+    //public Collection<? extends GrantedAuthority> getAuthorities() {
+    //    return this.roles;
+    //}
 
-    @Override
+    //@Override
     public String getPassword() {
         return this.password;
     }
 
-    @Override
+    //@Override
     public String getUsername() {
         return this.username;
     }
 
-    @Override
+    //@Override
     public boolean isAccountNonExpired() {
         return this.enabled;
     }
 
-    @Override
+    //@Override
     public boolean isAccountNonLocked() {
         return this.enabled;
     }
 
-    @Override
+    //@Override
     public boolean isCredentialsNonExpired() {
         return this.enabled;
     }
 
-    @Override
+    //@Override
     public boolean isEnabled() {
         return this.enabled;
     }

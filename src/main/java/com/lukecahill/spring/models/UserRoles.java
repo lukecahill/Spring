@@ -1,14 +1,13 @@
 package com.lukecahill.spring.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "UserRoles")
-public class UserRoles implements Serializable, GrantedAuthority {
+public class UserRoles implements Serializable {//, GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,7 +47,7 @@ public class UserRoles implements Serializable, GrantedAuthority {
         this.role = role;
     }
 
-    @Override
+    //@Override
     public String getAuthority() {
         return this.role.getRoleName().toString();
     }
