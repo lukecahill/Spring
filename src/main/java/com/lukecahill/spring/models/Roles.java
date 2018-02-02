@@ -1,6 +1,7 @@
 package com.lukecahill.spring.models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -10,6 +11,9 @@ public class Roles {
     private int roleId;
 
     private String roleName;
+
+    @OneToMany(mappedBy = "username", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<UserRoles> roles;
 
     public Roles() {}
 
@@ -22,10 +26,18 @@ public class Roles {
     }
 
     public String getRoleName() {
-        return roleName;
+        return this.roleName;
     }
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public Set<UserRoles> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(Set<UserRoles> roles) {
+        this.roles = roles;
     }
 }

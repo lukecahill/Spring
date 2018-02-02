@@ -3,11 +3,10 @@ package com.lukecahill.spring.models;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "Users")
@@ -19,6 +18,9 @@ public class User implements Serializable, UserDetails {
     private String email;
     private String password;
     private boolean enabled = true;
+
+    @OneToMany(mappedBy = "username", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<UserRoles> roles;
 
     public void setUsername(String username) {
         this.username = username;
@@ -50,7 +52,7 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.roles;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.lukecahill.spring.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class UserRoles implements Serializable, GrantedAuthority {
 
     @ManyToOne
     @JoinColumn(name = "role", nullable = false)
-    private Roles roleId;
+    private Roles role;
 
     public UserRoles() {}
 
@@ -31,24 +32,25 @@ public class UserRoles implements Serializable, GrantedAuthority {
         this.userRoleId = userRoleId;
     }
 
-    public User getUsername() {
-        return username;
+    public String getUsername() {
+        return username.getUsername().toString();
     }
 
     public void setUsername(User username) {
         this.username = username;
     }
 
-    public Roles getRoleId() {
-        return roleId;
+    public String getRole() {
+        return role.getRoleName().toString();
     }
 
-    public void setRoleId(Roles roleId) {
-        this.roleId = roleId;
+    public void setRole(Roles role) {
+        this.role = role;
     }
 
     @Override
     public String getAuthority() {
-        return null;
+        return this.role.getRoleName().toString();
     }
+
 }
