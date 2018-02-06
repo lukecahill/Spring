@@ -23,6 +23,12 @@ public class UserRoles implements Serializable, GrantedAuthority {
 
     public UserRoles() {}
 
+    public UserRoles(int userRoleId, User username, Roles role) {
+        this.userRoleId = userRoleId;
+        this.username = username;
+        this.role = role;
+    }
+
     public int getUserRoleId() {
         return userRoleId;
     }
@@ -32,7 +38,7 @@ public class UserRoles implements Serializable, GrantedAuthority {
     }
 
     public String getUsername() {
-        return username.getUsername().toString();
+        return username.getUsername();
     }
 
     public void setUsername(User username) {
@@ -40,7 +46,7 @@ public class UserRoles implements Serializable, GrantedAuthority {
     }
 
     public String getRole() {
-        return role.getRoleName().toString();
+        return role.getRoleName();
     }
 
     public void setRole(Roles role) {
@@ -49,6 +55,6 @@ public class UserRoles implements Serializable, GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return this.role.getRoleName().toString();
+        return this.role.getRoleName();
     }
 }
