@@ -9,9 +9,11 @@ import org.springframework.boot.ApplicationRunner;
 
 import com.lukecahill.spring.models.User;
 import com.lukecahill.spring.repositories.UserRepository;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 
+@Component
 public class DataLoader implements ApplicationRunner {
 
     @Inject
@@ -27,7 +29,7 @@ public class DataLoader implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) {
+    public void run(ApplicationArguments args) throws Exception {
 
         // creates a user with the username 'luke' and password 'password'
         // also creates roles, and assigns luke the admin role.
