@@ -17,12 +17,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class SimpleCorsFilter extends OncePerRequestFilter {
 
-	static final String ORIGIN = "ENTER_ORIGIN_HERE";
+	private static final String ORIGIN = "*";
 
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Origin", ORIGIN);
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.setHeader("Access-Control-Allow-Methods", "PUT, POST, GET, OPTIONS, DELETE");
 		response.setHeader("Access-Control-Max-Age", "3600");
@@ -30,10 +30,10 @@ public class SimpleCorsFilter extends OncePerRequestFilter {
 
 		boolean status = "OPTIONS".equalsIgnoreCase(request.getMethod());
 
-		if (status)
+		if (status) {
 			response.setStatus(HttpServletResponse.SC_OK);
-		else
+		} else {
 			filterChain.doFilter(request, response);
-
+		}
 	}
 }
