@@ -1,12 +1,15 @@
 package com.lukecahill.spring.models;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Users")
@@ -62,35 +65,36 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles.stream().map(x -> new SimpleGrantedAuthority("ROLE_" + x.getRole()))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    //@Override
+    @Override
     public String getPassword() {
         return this.password;
     }
 
-    //@Override
+    @Override
     public String getUsername() {
         return this.username;
     }
 
-    //@Override
+    @Override
     public boolean isAccountNonExpired() {
         return this.enabled;
     }
 
-    //@Override
+    @Override
     public boolean isAccountNonLocked() {
         return this.enabled;
     }
 
-    //@Override
+    @Override
     public boolean isCredentialsNonExpired() {
         return this.enabled;
     }
 
-    //@Override
+    @Override
     public boolean isEnabled() {
         return this.enabled;
     }
