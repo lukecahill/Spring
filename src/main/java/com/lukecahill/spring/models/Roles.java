@@ -12,7 +12,7 @@ public class Roles {
 
     private String roleName;
 
-    @OneToMany(mappedBy = "username", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<UserRoles> roles;
 
     public Roles() {}
