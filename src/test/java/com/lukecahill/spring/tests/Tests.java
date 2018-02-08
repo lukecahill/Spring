@@ -17,7 +17,7 @@ import javax.inject.Inject;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class})
-//@TestPropertySource(locations = "classpath:application-integrationtest.properties")
+@TestPropertySource(locations = "classpath:application-integrationtest.properties")
 public class Tests {
 
     @Inject
@@ -26,35 +26,42 @@ public class Tests {
     @Inject
     private RolesRepository rolesRepository;
 
-    private User luke = new User("luke", "luke", "luke",
-            "", true);
+    private User testuser = new User("testuser", "testuser", "testuser@example.com",
+            "", false);
 
     @Test
-    public void loadUserByName_loadUser_shouldWork() {
-        UserDetails user = userService.loadUserByUsername("luke");
-        Assert.assertEquals(luke.getUsername(), user.getUsername());
+    public void ifCreateNewUser_shouldCreateUser() {
+        User createdUser = userService.createNewUser("testuser", "testuser", "testuser@example.com",
+                "", false);
+        Assert.assertEquals(testuser.getUsername(), createdUser.getUsername());
+    }
+
+    @Test
+    public void ifLoadUserByNameIsValid_shouldReturnUser() {
+        UserDetails user = userService.loadUserByUsername("testuser");
+        Assert.assertEquals(testuser.getUsername(), user.getUsername());
     }
 
     @Test(expected = UsernameNotFoundException.class)
-    public void loadUserByUsername_loadUser_shouldThrowUsernameNotFoundException() {
+    public void ifLoadUserByUsernameIsNotFound_shouldThrowUsernameNotFoundException() {
         userService.loadUserByUsername("notFound");
     }
 
     @Test
-    public void rolesFindOne_findRole_ShouldWork() {
+    public void ifRolesSave_shouldPersistToDatabase() {
+        Roles role = rolesRepository.save(new Roles(4, "TEST_ROLE"));
+        Assert.assertEquals("TEST_ROLE", role.getRoleName());
+    }
+
+    @Test
+    public void ifRolesFindOneIsValid_shouldReturnRole() {
         Roles role = rolesRepository.findOne(1);
         Roles mockRole = new Roles(1, "READ_WRITE");
         Assert.assertEquals(mockRole.getRoleName(), role.getRoleName());
     }
 
     @Test
-    public void rolesFindOne_findRole_ShouldBeNull() {
-        Roles role = rolesRepository.findOne(0);
-        Assert.assertEquals(null, role);
-    }
-
-    @Test
-    public void rolesFindOne_findRole_ShouldReturnNull() {
+    public void ifRolesFindOneIsNotFound_shouldBeNull() {
         Roles role = rolesRepository.findOne(0);
         Assert.assertEquals(null, role);
     }
