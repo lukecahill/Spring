@@ -7,6 +7,5 @@ import org.springframework.data.jpa.repository.Modifying;
 import javax.transaction.Transactional;
 
 public interface UserRepository extends JpaRepository<User, String> {
-    @Transactional
     User findOneByUsername(String username);
 }

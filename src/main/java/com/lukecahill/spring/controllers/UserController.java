@@ -10,13 +10,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "/api/Users")
 public class UserController {
 
-    @Autowired
     private UserService _userService;
+
+    @Inject
+    public UserController(UserService userService) {
+        this._userService = userService;
+    }
 
     private GsonBuilder builder = new GsonBuilder();
     private Gson gson = builder.create();

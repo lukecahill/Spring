@@ -15,11 +15,14 @@ import javax.transaction.Transactional;
 @Service("userDetailsService")
 public class UserService implements UserDetailsService {
 
-    @Inject
     private UserRepository _userRepository;
+    private EntityManager entityManager;
 
     @Inject
-    private EntityManager entityManager;
+    public UserService(UserRepository userRepository, EntityManager entityManager) {
+        this._userRepository = userRepository;
+        this.entityManager = entityManager;
+    }
 
     @Transactional
     public User createNewUser(String name, String username, String email, String password, boolean enabled) {
