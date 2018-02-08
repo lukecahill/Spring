@@ -27,7 +27,7 @@ public class Tests {
     private RolesRepository rolesRepository;
 
     private User luke = new User("luke", "luke", "luke",
-            "$2a$04$hW1MnBIdgNI/4FCW/33h7eB3RNJ5OkDP6VgVm2p6Oi1VcyfVmr2nu", true);
+            "", true);
 
     @Test
     public void loadUserByName_loadUser_shouldWork() {
