@@ -6,6 +6,7 @@ import com.lukecahill.spring.repositories.RolesRepository;
 import com.lukecahill.spring.services.RolesService;
 import com.lukecahill.spring.viewmodels.RolesViewModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -38,7 +39,20 @@ public class RolesController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> add(@RequestBody RolesBindingModels role) {
+    public ResponseEntity<?> add(@RequestBody RolesBindingModels role, Errors errors) {
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(errors.getAllErrors());
+        }
+
         return ResponseEntity.ok(rolesService.add(role));
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/{roleId}")
+    public ResponseEntity<?> update(@RequestBody RolesBindingModels role, @PathVariable int roleId, Errors errors) {
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(errors.getAllErrors());
+        }
+
+        return ResponseEntity.ok(rolesService.update(roleId, role));
     }
 }

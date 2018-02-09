@@ -31,4 +31,11 @@ public class RolesService {
         Roles roleToAdd = new Roles(role);
         return rolesRepository.save(roleToAdd);
     }
+
+    public Roles update(int roleId, RolesBindingModels role) {
+        Roles roleToUpdate = rolesRepository.findOne(roleId);
+        roleToUpdate.setRoleName(role.roleName);
+        roleToUpdate.setRoleId(role.roleId);
+        return rolesRepository.save(roleToUpdate);
+    }
 }
