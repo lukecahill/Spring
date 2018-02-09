@@ -54,7 +54,7 @@ public class UserController {
         return ResponseEntity.ok(new UserViewModel(updatedUser));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, produces = "application/json", consumes = "application/json", value = "/{username}")
+    @RequestMapping(method = RequestMethod.PUT, produces = "application/json", consumes = "application/json", value = "/password/{username}")
     public @ResponseBody ResponseEntity<?> updatePassword(@PathVariable String username, UserBindingModel.Update user) {
         User updatedUser = userService.updatePassword(username, user);
         return ResponseEntity.ok(new UserViewModel(updatedUser));

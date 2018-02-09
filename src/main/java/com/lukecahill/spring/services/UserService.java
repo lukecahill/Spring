@@ -3,6 +3,7 @@ package com.lukecahill.spring.services;
 import com.lukecahill.spring.bindingmodels.UserBindingModel;
 import com.lukecahill.spring.models.User;
 import com.lukecahill.spring.repositories.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -56,6 +57,10 @@ public class UserService implements UserDetailsService {
     }
 
     public User update(String username, UserBindingModel.Update user) {
+        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(username)) {
+            return null;
+        }
+
         User foundUser = userRepository.findOneByUsername(username);
         foundUser.setEmail(user.email);
         foundUser.setEnabled(user.enabled);
@@ -66,6 +71,10 @@ public class UserService implements UserDetailsService {
     }
 
     public User updatePassword(String username, UserBindingModel.Update user) {
+        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(username)) {
+            return null;
+        }
+
         User foundUser = userRepository.findOneByUsername(username);
         foundUser.setPassword(user.password);
         return foundUser;
