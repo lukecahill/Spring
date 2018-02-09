@@ -1,5 +1,7 @@
 package com.lukecahill.spring.models;
 
+import com.lukecahill.spring.bindingmodels.RolesBindingModels;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -16,6 +18,11 @@ public class Roles {
     private Set<UserRoles> roles;
 
     public Roles() {}
+
+    public Roles(RolesBindingModels rolesBindingModels) {
+        this.roleId = rolesBindingModels.roleId;
+        this.roleName = rolesBindingModels.roleName;
+    }
 
     public Roles(int roleId, String roleName) {
         this.roleId = roleId;
