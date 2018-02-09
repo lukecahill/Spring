@@ -36,7 +36,7 @@ public class UserController {
         return new UserViewModel(user);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/Create")
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> createNewUser(@RequestBody UserBindingModel.Create user) {
         User newUser = userService.createNewUser(user.name, user.username, user.email, user.password, user.enabled);
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
