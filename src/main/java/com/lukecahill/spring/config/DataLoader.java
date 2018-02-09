@@ -16,16 +16,18 @@ import javax.inject.Inject;
 @Component
 public class DataLoader implements ApplicationRunner {
 
-    @Inject
     private UserRepository userRepository;
-
-    @Inject
     private RolesRepository rolesRepository;
-
-    @Inject
     private UserRolesRepository userRolesRepository;
 
     public DataLoader() {
+    }
+
+    @Inject
+    public DataLoader(UserRepository userRepository, RolesRepository rolesRepository, UserRolesRepository userRolesRepository) {
+        this.rolesRepository = rolesRepository;
+        this.userRepository = userRepository;
+        this.userRolesRepository = userRolesRepository;
     }
 
     @Override
