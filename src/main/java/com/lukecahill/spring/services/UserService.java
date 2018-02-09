@@ -1,5 +1,6 @@
 package com.lukecahill.spring.services;
 
+import com.lukecahill.spring.bindingmodels.UserBindingModel;
 import com.lukecahill.spring.models.User;
 import com.lukecahill.spring.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,12 +17,12 @@ import java.util.List;
 @Service("userDetailsService")
 public class UserService implements UserDetailsService {
 
-    private UserRepository _userRepository;
+    private UserRepository userRepository;
     private EntityManager entityManager;
 
     @Inject
     public UserService(UserRepository userRepository, EntityManager entityManager) {
-        this._userRepository = userRepository;
+        this.userRepository = userRepository;
         this.entityManager = entityManager;
     }
 
@@ -37,7 +38,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDetails userDetails = _userRepository.findOneByUsername(username);
+        UserDetails userDetails = userRepository.findOneByUsername(username);
 
         if(userDetails == null) {
             throw new UsernameNotFoundException("Cannot find that user");
@@ -47,10 +48,26 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getAll() {
-        return _userRepository.findAll();
+        return userRepository.findAll();
     }
 
     public User get(String username) {
-        return _userRepository.findOneByUsername(username);
+        return userRepository.findOneByUsername(username);
+    }
+
+    public User update(String username, UserBindingModel.Update user) {
+        User foundUser = userRepository.findOneByUsername(username);
+        foundUser.setEmail(user.email);
+        foundUser.setEnabled(user.enabled);
+        foundUser.setName(user.name);
+
+        userRepository.save(foundUser);
+        return foundUser;
+    }
+
+    public User updatePassword(String username, UserBindingModel.Update user) {
+        User foundUser = userRepository.findOneByUsername(username);
+        foundUser.setPassword(user.password);
+        return foundUser;
     }
 }
