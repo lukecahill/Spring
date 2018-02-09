@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service("userDetailsService")
 public class UserService implements UserDetailsService {
@@ -43,5 +44,13 @@ public class UserService implements UserDetailsService {
         }
 
         return userDetails;
+    }
+
+    public List<User> getAll() {
+        return _userRepository.findAll();
+    }
+
+    public User get(String username) {
+        return _userRepository.findOneByUsername(username);
     }
 }
