@@ -21,6 +21,8 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private EntityManager entityManager;
 
+    public UserService() {}
+
     @Inject
     public UserService(UserRepository userRepository, EntityManager entityManager) {
         this.userRepository = userRepository;

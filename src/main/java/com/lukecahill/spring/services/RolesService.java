@@ -3,15 +3,19 @@ package com.lukecahill.spring.services;
 import com.lukecahill.spring.bindingmodels.RolesBindingModels;
 import com.lukecahill.spring.models.Roles;
 import com.lukecahill.spring.repositories.RolesRepository;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Service(value = "rolesService")
 public class RolesService {
 
     private RolesRepository rolesRepository;
     private EntityManager entityManager;
+
+    public RolesService() {}
 
     @Inject
     public RolesService(RolesRepository rolesRepository, EntityManager entityManager) {

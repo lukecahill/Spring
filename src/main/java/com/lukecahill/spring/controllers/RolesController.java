@@ -21,6 +21,8 @@ public class RolesController {
 
     private RolesService rolesService;
 
+    public RolesController() {}
+
     @Inject
     public RolesController(RolesService rolesService) {
         this.rolesService = rolesService;

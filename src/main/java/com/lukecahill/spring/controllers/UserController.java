@@ -22,6 +22,8 @@ public class UserController {
 
     private UserService userService;
 
+    public UserController() {}
+
     @Inject
     public UserController(UserService userService) {
         this.userService = userService;
