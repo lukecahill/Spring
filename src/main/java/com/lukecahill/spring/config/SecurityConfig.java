@@ -56,11 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		//http.cors().and().httpBasic().and().authorizeRequests().antMatchers(HttpMethod.GET, "/api/**")
-		//.hasAuthority("WRITE").and().csrf().disable();
 		http.cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().httpBasic()
 				.realmName(securityRealm).and().csrf().disable();
-		//http.antMatcher("/user").authorizeRequests().anyRequest().authenticated().and().csrf().disable();
 	}
 
 	@Bean
@@ -76,8 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	@Primary // Making this primary to avoid any accidental duplication with another token
-	// service instance of the same name
+    @Primary
 	public DefaultTokenServices tokenServices() {
 		DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
 		defaultTokenServices.setTokenStore(tokenStore());
