@@ -42,4 +42,8 @@ public class RolesService {
         roleToUpdate.setRoleId(role.roleId);
         return rolesRepository.save(roleToUpdate);
     }
+
+    public void delete(int roleId) {
+        rolesRepository.delete(roleId);
+    }
 }

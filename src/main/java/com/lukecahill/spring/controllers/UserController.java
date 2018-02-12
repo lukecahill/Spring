@@ -8,6 +8,7 @@ import com.lukecahill.spring.services.UserService;
 import com.lukecahill.spring.viewmodels.UserViewModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -39,7 +40,10 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> createNewUser(@RequestBody UserBindingModel.Create user) {
+    public ResponseEntity<?> createNewUser(@RequestBody UserBindingModel.Create user, Errors errors) {
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(gson.toJson(errors.getAllErrors()));
+        }
         User newUser = userService.createNewUser(user.name, user.username, user.email, user.password, user.enabled);
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
     }
@@ -51,14 +55,31 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, produces = "application/json", consumes = "application/json", value = "/{username}")
-    public @ResponseBody ResponseEntity<?> update(@PathVariable String username, UserBindingModel.Update user) {
+    public @ResponseBody ResponseEntity<?> update(@PathVariable String username, UserBindingModel.Update user, Errors errors) {
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(gson.toJson(errors.getAllErrors()));
+        }
         User updatedUser = userService.update(username, user);
         return ResponseEntity.ok(new UserViewModel(updatedUser));
     }
 
     @RequestMapping(method = RequestMethod.PUT, produces = "application/json", consumes = "application/json", value = "/password/{username}")
-    public @ResponseBody ResponseEntity<?> updatePassword(@PathVariable String username, UserBindingModel.Update user) {
+    public @ResponseBody ResponseEntity<?> updatePassword(@PathVariable String username, UserBindingModel.Update user, Errors errors) {
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(gson.toJson(errors.getAllErrors()));
+        }
         User updatedUser = userService.updatePassword(username, user);
         return ResponseEntity.ok(new UserViewModel(updatedUser));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{username}")
+    public @ResponseBody ResponseEntity<?> delete(@PathVariable String username, Errors errors) {
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(gson.toJson(errors.getAllErrors()));
+        }
+
+        // should we be able to remove users?
+        userService.delete(username);
+        return ResponseEntity.ok(username);
     }
 }

@@ -57,4 +57,14 @@ public class RolesController {
 
         return ResponseEntity.ok(rolesService.update(roleId, role));
     }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{roleId}")
+    public ResponseEntity<?> delete(@PathVariable int roleId, Errors errors) {
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(errors.getAllErrors());
+        }
+
+        rolesService.delete(roleId);
+        return ResponseEntity.ok(roleId);
+    }
 }

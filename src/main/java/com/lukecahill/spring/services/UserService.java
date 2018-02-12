@@ -81,4 +81,14 @@ public class UserService implements UserDetailsService {
         foundUser.setPassword(user.password);
         return foundUser;
     }
+
+    public void delete(String username) {
+        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(username)) {
+            return;
+        }
+
+        if(username != null) {
+            userRepository.delete(username);
+        }
+    }
 }
