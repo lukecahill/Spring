@@ -3,6 +3,7 @@ package com.lukecahill.spring.models;
 import com.lukecahill.spring.bindingmodels.RolesBindingModels;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -12,6 +13,7 @@ public class Roles {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int roleId;
 
+    @NotNull
     private String roleName;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)

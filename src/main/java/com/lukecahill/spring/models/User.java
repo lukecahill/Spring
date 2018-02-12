@@ -5,6 +5,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,8 +18,11 @@ public class User implements Serializable, UserDetails {
 
     @Id
     private String username;
+    @NotNull
     private String name;
+    @NotNull
     private String email;
+    @NotNull
     private String password;
     private boolean enabled = true;
 
