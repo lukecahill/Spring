@@ -12,6 +12,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> createNewUser(@RequestBody UserBindingModel.Create user, Errors errors) {
+    public ResponseEntity<?> createNewUser(@RequestBody @Valid UserBindingModel.Create user, Errors errors) {
         if(errors.hasErrors()) {
             return ResponseEntity.badRequest().body(gson.toJson(errors.getAllErrors()));
         }
@@ -55,7 +56,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, produces = "application/json", consumes = "application/json", value = "/{username}")
-    public @ResponseBody ResponseEntity<?> update(@PathVariable String username, UserBindingModel.Update user, Errors errors) {
+    public @ResponseBody ResponseEntity<?> update(@PathVariable String username, @Valid @RequestBody UserBindingModel.Update user, Errors errors) {
         if(errors.hasErrors()) {
             return ResponseEntity.badRequest().body(gson.toJson(errors.getAllErrors()));
         }
@@ -64,7 +65,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, produces = "application/json", consumes = "application/json", value = "/password/{username}")
-    public @ResponseBody ResponseEntity<?> updatePassword(@PathVariable String username, UserBindingModel.Update user, Errors errors) {
+    public @ResponseBody ResponseEntity<?> updatePassword(@PathVariable String username, @Valid @RequestBody UserBindingModel.Update user, Errors errors) {
         if(errors.hasErrors()) {
             return ResponseEntity.badRequest().body(gson.toJson(errors.getAllErrors()));
         }

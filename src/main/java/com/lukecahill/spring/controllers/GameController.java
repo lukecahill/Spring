@@ -10,6 +10,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -38,7 +39,7 @@ public class GameController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/{gameId}")
-    public ResponseEntity<?> add(@PathVariable int gameId, Game game, Errors errors) {
+    public ResponseEntity<?> add(@PathVariable int gameId, @RequestBody @Valid Game game, Errors errors) {
         if(errors.hasErrors()) {
             return ResponseEntity.badRequest().body(errors.getAllErrors());
         }
@@ -48,7 +49,7 @@ public class GameController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{gameId}")
-    public ResponseEntity<?> update(@PathVariable int gameId, Game game, Errors errors) {
+    public ResponseEntity<?> update(@PathVariable int gameId, @RequestBody @Valid Game game, Errors errors) {
         if(errors.hasErrors()) {
             return ResponseEntity.badRequest().body(errors.getAllErrors());
         }

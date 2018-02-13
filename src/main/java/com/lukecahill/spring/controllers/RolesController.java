@@ -10,6 +10,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,7 +40,7 @@ public class RolesController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> add(@RequestBody RolesBindingModels role, Errors errors) {
+    public ResponseEntity<?> add(@RequestBody @Valid RolesBindingModels role, Errors errors) {
         if(errors.hasErrors()) {
             return ResponseEntity.badRequest().body(errors.getAllErrors());
         }
@@ -48,7 +49,7 @@ public class RolesController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{roleId}")
-    public ResponseEntity<?> update(@RequestBody RolesBindingModels role, @PathVariable int roleId, Errors errors) {
+    public ResponseEntity<?> update(@RequestBody @Valid RolesBindingModels role, @PathVariable int roleId, Errors errors) {
         if(errors.hasErrors()) {
             return ResponseEntity.badRequest().body(errors.getAllErrors());
         }
