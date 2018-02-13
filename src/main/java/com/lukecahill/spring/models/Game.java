@@ -1,15 +1,25 @@
 package com.lukecahill.spring.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Games")
 public class Game extends BaseModel {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int gameId;
     private String name;
     private String publisher;
     private double price;
+
+    public int getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
+    }
 
     public String getName() {
         return name;
