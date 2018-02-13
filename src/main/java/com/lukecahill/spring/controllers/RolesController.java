@@ -35,9 +35,7 @@ public class RolesController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getAll() {
-        List<RolesViewModel> roles = rolesService.getAll().stream()
-                .map(x -> new RolesViewModel(x)).collect(Collectors.toCollection(ArrayList::new));
-        return ResponseEntity.ok(roles);
+        return ResponseEntity.ok(rolesService.getAll());
     }
 
     @RequestMapping(method = RequestMethod.POST)
