@@ -1,7 +1,9 @@
 package com.lukecahill.spring.config;
 
+import com.lukecahill.spring.models.Game;
 import com.lukecahill.spring.models.Roles;
 import com.lukecahill.spring.models.UserRoles;
+import com.lukecahill.spring.repositories.GameRepository;
 import com.lukecahill.spring.repositories.RolesRepository;
 import com.lukecahill.spring.repositories.UserRolesRepository;
 import org.springframework.boot.ApplicationArguments;
@@ -19,15 +21,17 @@ public class DataLoader implements ApplicationRunner {
     private UserRepository userRepository;
     private RolesRepository rolesRepository;
     private UserRolesRepository userRolesRepository;
+    private GameRepository gameRepository;
 
     public DataLoader() {
     }
 
     @Inject
-    public DataLoader(UserRepository userRepository, RolesRepository rolesRepository, UserRolesRepository userRolesRepository) {
+    public DataLoader(UserRepository userRepository, RolesRepository rolesRepository, UserRolesRepository userRolesRepository, GameRepository gameRepository) {
         this.rolesRepository = rolesRepository;
         this.userRepository = userRepository;
         this.userRolesRepository = userRolesRepository;
+        this.gameRepository = gameRepository;
     }
 
     @Override
@@ -45,5 +49,8 @@ public class DataLoader implements ApplicationRunner {
         rolesRepository.save(adminRole);
 
         userRolesRepository.save(new UserRoles(1, user, adminRole));
+
+        gameRepository.save(new Game(1, "Rainbow Six: Siege", "Ubisoft", 12.99D));
+        gameRepository.save(new Game(2, "Total War: Britannia", "Sega", 39.99D));
     }
 }
