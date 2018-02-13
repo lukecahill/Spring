@@ -13,6 +13,21 @@ public class Game extends BaseModel {
     private String publisher;
     private double price;
 
+    public Game() {}
+
+    public Game(String name, String publisher, double price) {
+        this.name = name;
+        this.publisher = publisher;
+        this.price = price;
+    }
+
+    public Game(int gameId, String name, String publisher, double price) {
+        this.gameId = gameId;
+        this.name = name;
+        this.publisher = publisher;
+        this.price = price;
+    }
+
     public int getGameId() {
         return gameId;
     }
