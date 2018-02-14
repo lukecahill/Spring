@@ -1,5 +1,6 @@
 package com.lukecahill.spring.bindingmodels;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 public class UserBindingModel {
@@ -13,6 +14,7 @@ public class UserBindingModel {
 		@NotBlank
 		public String password;
 		@NotBlank
+		@Email
 		public String email;
 		public boolean enabled;
 	}
@@ -26,6 +28,7 @@ public class UserBindingModel {
 		@NotBlank
 		public String password;
 		@NotBlank
+		@Email
 		public String email;
 		public boolean enabled;
 	}
