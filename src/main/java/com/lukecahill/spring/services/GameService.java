@@ -1,5 +1,6 @@
 package com.lukecahill.spring.services;
 
+import com.lukecahill.spring.bindingmodels.GameBindingModel;
 import com.lukecahill.spring.models.Game;
 import com.lukecahill.spring.repositories.GameRepository;
 import com.lukecahill.spring.viewmodels.GameViewModel;
@@ -34,29 +35,30 @@ public class GameService {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public GameViewModel add(Game game) {
+    public GameViewModel add(GameBindingModel.Create game) {
         if(game == null) {
             throw new NullPointerException();
         }
 
-        game.setCreated(new Timestamp(new Date().getTime()));
-        gameRepository.save(game);
+        Game gameToAdd = new Game(game.gameName, game.gamePublisher, game.gamePrice);
+        gameToAdd.setCreated(new Timestamp(new Date().getTime()));
+        gameRepository.save(gameToAdd);
 
-        return new GameViewModel(game);
+        return new GameViewModel(gameToAdd);
     }
 
-    public GameViewModel update(int gameId, Game game) {
+    public GameViewModel update(int gameId, GameBindingModel.Update game) {
         if(game == null) {
             throw new NullPointerException();
         }
 
         Game gameToUpdate = gameRepository.findOne(gameId);
-        gameToUpdate.setName(game.getName());
-        gameToUpdate.setPrice(game.getPrice());
-        gameToUpdate.setPublisher(game.getPublisher());
+        gameToUpdate.setName(game.gameName);
+        gameToUpdate.setPrice(game.gamePrice);
+        gameToUpdate.setPublisher(game.gamePublisher);
 
         gameRepository.save(gameToUpdate);
-        return new GameViewModel(game);
+        return new GameViewModel(gameToUpdate);
     }
 
     public void delete(int gameId) {
