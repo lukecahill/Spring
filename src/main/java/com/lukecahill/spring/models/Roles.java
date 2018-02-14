@@ -22,7 +22,6 @@ public class Roles {
     public Roles() {}
 
     public Roles(RolesBindingModels rolesBindingModels) {
-        this.roleId = rolesBindingModels.roleId;
         this.roleName = rolesBindingModels.roleName;
     }
 

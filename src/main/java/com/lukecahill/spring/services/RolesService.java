@@ -39,7 +39,6 @@ public class RolesService {
     public Roles update(int roleId, RolesBindingModels role) {
         Roles roleToUpdate = rolesRepository.findOne(roleId);
         roleToUpdate.setRoleName(role.roleName);
-        roleToUpdate.setRoleId(role.roleId);
         return rolesRepository.save(roleToUpdate);
     }
 
