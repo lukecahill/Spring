@@ -1,15 +1,15 @@
 package com.lukecahill.spring.bindingmodels;
 
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 public class GameBindingModel {
 
     public static class Create {
-        @NotNull
+        @NotBlank
         public String gameName;
-        @NotNull
+        @NotBlank
         public String gamePublisher;
-        @NotNull
+        @NotBlank
         public double gamePrice;
 
         public Create() {}
@@ -23,13 +23,13 @@ public class GameBindingModel {
 
     public static class Update {
 
-        @NotNull
+        @NotBlank
         public String gameName;
-        @NotNull
+        @NotBlank
         public String gamePublisher;
-        @NotNull
+        @NotBlank
         public double gamePrice;
-        @NotNull
+        @NotBlank
         public int gameId;
 
         public Update() {}

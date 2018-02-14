@@ -1,31 +1,31 @@
 package com.lukecahill.spring.bindingmodels;
 
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 public class UserBindingModel {
 
 	public static class Create {
 
-		@NotNull
+		@NotBlank
 		public String username;
-		@NotNull
+		@NotBlank
 		public String name;
-		@NotNull
+		@NotBlank
 		public String password;
-		@NotNull
+		@NotBlank
 		public String email;
 		public boolean enabled;
 	}
 
 	public static class Update {
 
-		@NotNull
+		@NotBlank
 		public String username;
-		@NotNull
+		@NotBlank
 		public String name;
-		@NotNull
+		@NotBlank
 		public String password;
-		@NotNull
+		@NotBlank
 		public String email;
 		public boolean enabled;
 	}

@@ -1,6 +1,7 @@
 package com.lukecahill.spring.models;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 
@@ -11,9 +12,11 @@ public class Game extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int gameId;
-    @NotEmpty
+    @NotBlank
+    @Length(min = 1)
     private String name;
-    @NotEmpty
+    @NotBlank
+    @Length(min = 1)
     private String publisher;
     private double price;
 

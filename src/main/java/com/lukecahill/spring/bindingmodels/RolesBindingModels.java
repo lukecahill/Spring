@@ -1,10 +1,10 @@
 package com.lukecahill.spring.bindingmodels;
 
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 public class RolesBindingModels {
 
-    @NotNull
+    @NotBlank
 	public String roleName;
 
 	public RolesBindingModels() {}
