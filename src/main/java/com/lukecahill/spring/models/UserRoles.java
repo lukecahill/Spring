@@ -23,6 +23,11 @@ public class UserRoles implements Serializable, GrantedAuthority {
 
     public UserRoles() {}
 
+    public UserRoles(User username, Roles role) {
+        this.username = username;
+        this.role = role;
+    }
+
     public UserRoles(int userRoleId, User username, Roles role) {
         this.userRoleId = userRoleId;
         this.username = username;

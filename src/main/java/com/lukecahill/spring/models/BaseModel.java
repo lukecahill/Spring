@@ -1,9 +1,8 @@
 package com.lukecahill.spring.models;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreRemove;
-import javax.persistence.PreUpdate;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -12,7 +11,8 @@ public class BaseModel {
 
     protected Timestamp lastEditedTime;
     protected Timestamp created;
-    protected boolean isDeleted;
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    protected boolean isDeleted = false;
 
     public BaseModel() {}
 
