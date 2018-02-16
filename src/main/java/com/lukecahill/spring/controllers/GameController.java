@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -31,12 +33,12 @@ public class GameController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/{gameId}")
     public ResponseEntity<?> get(@PathVariable int gameId) {
-        return ResponseEntity.ok(gameService.get(gameId));
+        return ResponseEntity.ok(new GameViewModel(gameService.get(gameId)));
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok(gameService.getAll());
+        return ResponseEntity.ok(gameService.getAll().stream().map(x -> new GameViewModel(x)).collect(Collectors.toCollection(ArrayList::new)));
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/{gameId}")
@@ -45,7 +47,7 @@ public class GameController {
             return ResponseEntity.badRequest().body(errors.getAllErrors());
         }
 
-        GameViewModel gameViewModel = gameService.add(game);
+        GameViewModel gameViewModel = new GameViewModel(gameService.add(game));
         return ResponseEntity.ok(gameViewModel);
     }
 
@@ -55,7 +57,7 @@ public class GameController {
             return ResponseEntity.badRequest().body(errors.getAllErrors());
         }
 
-        return ResponseEntity.ok(gameService.update(gameId, game));
+        return ResponseEntity.ok(new GameViewModel(gameService.update(gameId, game)));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{gameId}")

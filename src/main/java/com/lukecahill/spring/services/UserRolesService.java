@@ -16,10 +16,10 @@ import java.util.List;
 @Service("userRolesService")
 public class UserRolesService {
 
-    EntityManager entityManager;
-    UserRolesRepository userRolesRepository;
-    UserRepository userRepository;
-    RolesRepository rolesRepository;
+    private EntityManager entityManager;
+    private UserRolesRepository userRolesRepository;
+    private UserRepository userRepository;
+    private RolesRepository rolesRepository;
 
     public UserRolesService() {}
 
@@ -41,15 +41,6 @@ public class UserRolesService {
 
         UserRoles userRoleToAdd = new UserRoles(user, role);
         return userRoleToAdd;
-    }
-
-    public UserRoles update(int userRoleId, UserRolesBindingModels userRolesBindingModels) {
-        if(userRolesBindingModels == null) {
-            return null;
-        }
-
-        UserRoles userRolesToUpdate = userRolesRepository.findOne(userRoleId);
-        return null;
     }
 
     public UserRoles get(int userRoleId) {
