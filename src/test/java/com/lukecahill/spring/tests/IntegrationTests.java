@@ -1,15 +1,15 @@
 package com.lukecahill.spring.tests;
 
 import com.lukecahill.spring.bindingmodels.GameBindingModel;
+import com.lukecahill.spring.bindingmodels.RolesBindingModels;
 import com.lukecahill.spring.bindingmodels.UserBindingModel;
 import com.lukecahill.spring.config.Application;
 import com.lukecahill.spring.models.Game;
 import com.lukecahill.spring.models.Roles;
 import com.lukecahill.spring.models.User;
-import com.lukecahill.spring.repositories.RolesRepository;
 import com.lukecahill.spring.services.GameService;
+import com.lukecahill.spring.services.RolesService;
 import com.lukecahill.spring.services.UserService;
-import com.lukecahill.spring.viewmodels.GameViewModel;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -32,13 +32,13 @@ import java.util.Set;
 @SpringBootTest(classes = {Application.class})
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class Tests {
+public class IntegrationTests {
 
     @Inject
     private UserService userService;
 
     @Inject
-    private RolesRepository rolesRepository;
+    private RolesService rolesService;
 
     @Inject
     private GameService gameService;
@@ -52,6 +52,13 @@ public class Tests {
     public void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
+    }
+
+    @Test
+    public void ifRolesSave_shouldPersistToDatabase() {
+        RolesBindingModels roleToAdd = new RolesBindingModels("TEST_ROLE");
+        Roles role = rolesService.add(roleToAdd);
+        Assert.assertEquals("TEST_ROLE", role.getRoleName());
     }
 
     @Test
@@ -73,22 +80,16 @@ public class Tests {
     }
 
     @Test
-    public void ifRolesSave_shouldPersistToDatabase() {
-        Roles role = rolesRepository.save(new Roles(4, "TEST_ROLE"));
-        Assert.assertEquals("TEST_ROLE", role.getRoleName());
-    }
-
-    @Test
     public void ifRolesFindOneIsValid_shouldReturnRole() {
-        List<Roles> roles = rolesRepository.findAll();
-        Roles role = rolesRepository.findOne(1);
+        List<Roles> roles = rolesService.getAll();
+        Roles role = rolesService.get(1);
         Roles mockRole = new Roles(1, "TEST_ROLE");
         Assert.assertEquals(mockRole.getRoleName(), role.getRoleName());
     }
 
     @Test
     public void ifRolesFindOneIsNotFound_shouldBeNull() {
-        Roles role = rolesRepository.findOne(0);
+        Roles role = rolesService.get(0);
         Assert.assertEquals(null, role);
     }
 
