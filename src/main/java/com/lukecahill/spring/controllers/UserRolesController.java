@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/api/UserRoles")
@@ -36,21 +37,12 @@ public class UserRolesController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> add(@RequestBody UserRolesBindingModels userRolesBindingModels, Errors errors) {
+    public ResponseEntity<?> add(@RequestBody @Valid UserRolesBindingModels userRolesBindingModels, Errors errors) {
         if(errors.hasErrors()) {
             return ResponseEntity.badRequest().body(gson.toJson(errors.getAllErrors()));
         }
 
         return ResponseEntity.ok(userRolesService.add(userRolesBindingModels));
-    }
-
-    @RequestMapping(method = RequestMethod.PUT, path = "/{userRoleId}")
-    public ResponseEntity<?> update(@PathVariable int userRoleId, @RequestBody UserRolesBindingModels userRolesBindingModels, Errors errors) {
-        if(errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(gson.toJson(errors.getAllErrors()));
-        }
-
-        return ResponseEntity.ok(userRolesService.update(userRoleId, userRolesBindingModels));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{userRoleId}")
