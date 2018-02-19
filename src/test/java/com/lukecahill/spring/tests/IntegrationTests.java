@@ -29,6 +29,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -63,8 +67,8 @@ public class IntegrationTests {
 
         mockRole = new Roles(1, "TEST_ROLE");
         when(mockedRoleService.get(1)).thenReturn(mockRole);
-        when(mockedRoleService.add(mockedRolesBindingModel)).thenReturn(mockRole);
-        when(mockedRoleService.update(1, updatedMockedRolesBindingModel)).thenReturn(updatedMockRoles);
+        when(mockedRoleService.add(any(RolesBindingModels.class))).thenReturn(mockRole);
+        when(mockedRoleService.update(any(Integer.class), any(RolesBindingModels.class))).thenReturn(updatedMockRoles);
         when(mockedRoleService.getAll()).thenReturn(Arrays.asList(mockRole));
     }
 
@@ -126,8 +130,8 @@ public class IntegrationTests {
         updatedUser.name = "updated";
         updatedUser.username = "testuser";
         User updated = userService.update("testuser", updatedUser);
-
-        Assert.assertEquals(null, updated); // this will throw
+        assertThat(updated, is(nullValue()));
+        //Assert.assertEquals(null, updated); // this will throw
     }
 
     @Test
