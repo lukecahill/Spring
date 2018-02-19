@@ -25,8 +25,12 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class})
@@ -38,27 +42,36 @@ public class IntegrationTests {
     private UserService userService;
 
     @Inject
-    private RolesService rolesService;
-
-    @Inject
     private GameService gameService;
 
     private User testuser = new User("testuser", "testuser", "testuser@example.com",
             "", false);
     private Game testGame = new Game(10, "Rome: Total War", "Sega", 3.99D);
+    private static Roles mockRole;
+    private static Roles updatedMockRoles;
+    private static RolesBindingModels updatedMockedRolesBindingModel;
     private static Validator validator;
+    private static RolesService mockedRoleService;
+    private static RolesBindingModels mockedRolesBindingModel;
+
+    @BeforeClass
+    public static void setUpBeforeClass(){
+        mockedRoleService = mock(RolesService.class);
+        updatedMockRoles = new Roles(1, "UPDATED_ROLE");
+        mockedRolesBindingModel = new RolesBindingModels("TEST_ROLE");
+        updatedMockedRolesBindingModel = new RolesBindingModels("UPDATED_ROLE");
+
+        mockRole = new Roles(1, "TEST_ROLE");
+        when(mockedRoleService.get(1)).thenReturn(mockRole);
+        when(mockedRoleService.add(mockedRolesBindingModel)).thenReturn(mockRole);
+        when(mockedRoleService.update(1, updatedMockedRolesBindingModel)).thenReturn(updatedMockRoles);
+        when(mockedRoleService.getAll()).thenReturn(Arrays.asList(mockRole));
+    }
 
     @Before
     public void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-    }
-
-    @Test
-    public void ifRolesSave_shouldPersistToDatabase() {
-        RolesBindingModels roleToAdd = new RolesBindingModels("TEST_ROLE");
-        Roles role = rolesService.add(roleToAdd);
-        Assert.assertEquals("TEST_ROLE", role.getRoleName());
     }
 
     @Test
@@ -77,20 +90,6 @@ public class IntegrationTests {
     @Test(expected = UsernameNotFoundException.class)
     public void ifLoadUserByUsernameIsNotFound_shouldThrowUsernameNotFoundException() {
         userService.loadUserByUsername("notFound");
-    }
-
-    @Test
-    public void ifRolesFindOneIsValid_shouldReturnRole() {
-        List<Roles> roles = rolesService.getAll();
-        Roles role = rolesService.get(1);
-        Roles mockRole = new Roles(1, "TEST_ROLE");
-        Assert.assertEquals(mockRole.getRoleName(), role.getRoleName());
-    }
-
-    @Test
-    public void ifRolesFindOneIsNotFound_shouldBeNull() {
-        Roles role = rolesService.get(0);
-        Assert.assertEquals(null, role);
     }
 
     @Test
@@ -171,5 +170,37 @@ public class IntegrationTests {
         Game gameToFail = new Game(0, "", "", 10.0D);
         Set<ConstraintViolation<Game>> violations = validator.validate(gameToFail);
         Assert.assertFalse(violations.isEmpty());
+    }
+
+    @Test
+    public void ifRolesSave_shouldPersistToDatabase() {
+        Roles role = mockedRoleService.add(mockedRolesBindingModel);
+        Assert.assertEquals("TEST_ROLE", role.getRoleName());
+    }
+
+    @Test
+    public void ifRolesFindOneIsValid_shouldReturnRole() {
+        Roles role = mockedRoleService.get(1);
+        Roles mockRole = new Roles(1, "TEST_ROLE");
+        Assert.assertEquals(mockRole.getRoleName(), role.getRoleName());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void ifRolesFindOneIsNotFound_shouldBeNull() {
+        Roles role = mockedRoleService.get(0);
+        Assert.assertEquals(null, role.getRoleName());
+    }
+
+    @Test
+    public void ifRolesGetAll_shouldReturnListOfRoles() {
+        List<Roles> roles = mockedRoleService.getAll();
+        Assert.assertEquals(1, roles.size());
+        Assert.assertTrue(roles.size() > 0);
+    }
+
+    @Test
+    public void ifRolesUpdate_shouldUpdateTheRole() {
+        Roles updatedRole = mockedRoleService.update(1, updatedMockedRolesBindingModel);
+        Assert.assertEquals("UPDATED_ROLE", updatedRole.getRoleName());
     }
 }
