@@ -91,4 +91,8 @@ public class UserService implements UserDetailsService {
             userRepository.delete(username);
         }
     }
+
+    public boolean exists(String username) {
+        return userRepository.findOneByUsername(username) != null;
+    }
 }
